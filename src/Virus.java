@@ -11,12 +11,29 @@ public class Virus{
     /*
     Luo satunnaisen kokonaisluvun 'i' väliltä 0 - 100 ja palauttaa true
     jos i ei ole suurempi kuin tämän mahdollisuus tartuttaa.
-    ESIM. Tämän mahdollisuus tartuttaa on 70% eli infectionChance on 70
-    randomilla on 70 lukua jotka ovat alle infectionChance ja 30 lukua
-    jotka ovat suuremmat kuin infectionChance eli 70/100 = 70% ja 30/100 = 30%
+    ESIM. Viruksen mahdollisuus tartuttaa on 70% eli infectionChance on 70.
+    Random funktiolla voi saada 70 lukua jotka ovat alle infectionChance ja 30 lukua
+    jotka on suurempia kuin infectionChance. Eli 70/100 = 70% ja 30/100 = 30%
      */
-    public boolean infect(){
+    private boolean infect(){
         int i = ThreadLocalRandom.current().nextInt(0, 100);
         return !(i > this.infectionChance);
+    }
+
+    /*
+    Käy läpi jokaisen Targetin 'targets' listasta. Jos infect() onnistuu ja targetin resist() epäonnistuu,
+    target 'tartutetaan' tällä viruksella.
+     */
+    public void spread(Target[] targets){
+        for(Target target : targets){
+            if(!target.isInfected()){
+                if(infect() != target.resist()){
+                    target.infect(this);
+                }
+                //else {
+                // Voidaan esim laskea viruksen kykyä tarttua jos uhri onnistuu resistoimaan ym. laskutoimituksia
+                //}
+            }
+        }
     }
 }
