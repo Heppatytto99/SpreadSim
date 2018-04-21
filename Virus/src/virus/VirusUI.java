@@ -15,7 +15,7 @@ public class VirusUI {
 
     static Scanner scan = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         //Call the functions to get things started
         intro();
@@ -35,14 +35,16 @@ public class VirusUI {
     //we will use in the simulation.
     //For example, choose 1. to choose x country and 2. to choose y etc.
     //More parameters might be added as time goes on
-    public static void askParameters() {
+    public static void askParameters() throws InterruptedException {
+
+        VirusPrintDay printDay = new VirusPrintDay();
 
         String parameterOne = null;
 
         while (!"0".equals(parameterOne)) {
             //Ask the player to choose a parameter
             //and grab it as a variable parameterOne.
-            System.out.print("Give some stuff: ");
+            System.out.print("Choose 1, 2 or 0: ");
             parameterOne = scan.nextLine();
 
             switch (parameterOne) {
@@ -51,12 +53,14 @@ public class VirusUI {
                     break;
 
                 case "1":
-                    System.out.println("Case 1");
+                    System.out.println("Give the amount of days: ");
                     //There will be a different class that makes
                     //use of these parameters.
-                    SomeClass.SomeMethod(SomeParameter);
+                    int days = scan.nextInt();
+                    printDay.setGoal(days);
+                    printDay.PrintDays();
                     break;
-
+                    
                 case "2":
                     System.out.println("Case 2");
                     break;
