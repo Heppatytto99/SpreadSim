@@ -38,7 +38,7 @@ public class VirusPrintDay {
                 y--;
                 counter++;
             }
-            // delay between each day for better visual effect
+            // delay between each day for better visual effect and readability
             Thread.sleep(100);
 
         }
