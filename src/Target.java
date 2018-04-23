@@ -1,7 +1,7 @@
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Target
-{
+public class Target{
+
     private int resistance;
     private boolean infected;
     private Virus infection;

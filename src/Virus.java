@@ -3,9 +3,11 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Virus{
 
     private int infectionChance;
+    private String name;
 
-    public Virus(int infectionChance) {
+    public Virus(int infectionChance, String name) {
         this.infectionChance = infectionChance;
+        this.name = name;
     }
 
     /*
@@ -16,8 +18,12 @@ public class Virus{
     jotka on suurempia kuin infectionChance. Eli 70/100 = 70% ja 30/100 = 30%
      */
     private boolean infect(){
-        int i = ThreadLocalRandom.current().nextInt(0, 100);
+        int i = ThreadLocalRandom.current().nextInt(0, 10000);
         return !(i > this.infectionChance);
+    }
+
+    public String toString(){
+        return this.name;
     }
 
     /*
