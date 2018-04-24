@@ -38,7 +38,9 @@ public class Virus{
                     target.infect(this);
                 }
                 else {
-                    this.resistanceValue -= 10;
+                  //Tää aiheuttaa vielä ongelmia, koska Java FX
+                  //ei tykkää kun sen alkiperäisarvoista poiketaan
+                    this.resistanceValue -= 0.1;
                 // Voidaan esim laskea viruksen kykyä tarttua jos uhri onnistuu resistoimaan ym. laskutoimituksia
                 //}
             }
