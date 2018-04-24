@@ -25,8 +25,9 @@ public class Simulation {
         this.next = true;
         this.day = 0;
         this.infectedCount = 0;
-        xAxis.setLabel("DAY");
-        lineChart.setTitle("Virus Data");
+        xAxis.setLabel("TIME IN DAYS");
+        yAxis.setLabel("POPULATION");
+        lineChart.setTitle("VIRUS DATA");
 
         fillTargets(30);
     }
@@ -82,7 +83,7 @@ public class Simulation {
         //grid.add(dayText, 1,2);
         //grid.add(infectedText, 1,1);
         grid.add(lineChart, 2,2);
-        
+
 
         return grid;
     }
