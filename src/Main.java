@@ -25,6 +25,7 @@ public class Main extends Application{
         next.setOnAction(e ->{
             simulation.next();
             border.setCenter(simulation.getGrid());
+            border.setCenter(simulation.getGridTwo());
         });
         next.setDisable(this.ready.getValue());
 
@@ -37,6 +38,9 @@ public class Main extends Application{
             this.simulation = new Simulation((int)Menu.getTargetSlider().getValue(), (int)Menu.getInfectionChanceSlider().getValue());
             ready.set(false);
             border.setCenter(this.simulation.getGrid());
+            border.setCenter(this.simulation.getGridTwo());
+
+
         });
 
         Button closeSimulation = new Button("Close simulation");
