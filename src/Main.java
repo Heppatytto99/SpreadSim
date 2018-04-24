@@ -9,19 +9,22 @@ import javafx.stage.Stage;
 
 public class Main extends Application{
 
+
+
     private Stage stage;
     private Simulation simulation;
     private BooleanProperty ready = new SimpleBooleanProperty(true);
 
     public void start(Stage primaryStage) throws Exception{
 
+
         stage = primaryStage;
-        stage.setTitle("SpreadSim");
+        stage.setTitle("VIRUS SIMULATION");
         BorderPane border = new BorderPane();
         Menu.createMenu();
         border.setLeft(Menu.getBox());
 
-        Button next = new Button("Next");
+        Button next = new Button("NEXT");
         next.setOnAction(e ->{
             simulation.next();
             border.setCenter(simulation.getGrid());
@@ -29,11 +32,11 @@ public class Main extends Application{
         });
         next.setDisable(this.ready.getValue());
 
-        Button prev = new Button("Prev");
+        Button prev = new Button("PREVIOUS");
         //prev.setOnAction(e -> simulation.prev());
         prev.setDisable(this.ready.getValue());
 
-        Button newSimulation = new Button("New simulation");
+        Button newSimulation = new Button("NEW SIMULATION");
         newSimulation.setOnAction(e -> {
             this.simulation = new Simulation((int)Menu.getTargetSlider().getValue(), (int)Menu.getInfectionChanceSlider().getValue());
             ready.set(false);
@@ -43,7 +46,7 @@ public class Main extends Application{
 
         });
 
-        Button closeSimulation = new Button("Close simulation");
+        Button closeSimulation = new Button("CLOSE SIMULATION");
         closeSimulation.setDisable(this.ready.getValue());
         closeSimulation.setOnAction(e ->{
             ready.setValue(true);
@@ -60,10 +63,17 @@ public class Main extends Application{
 
         Scene scene = new Scene(border, 800, 600);
         stage.setScene(scene);
+
+        // Add css for styling
+        scene.getStylesheets().clear();
+        scene.getStylesheets().add("http://users.metropolia.fi/~petrasil/style.css");
+
         stage.show();
     }
 
     public static void main(String[] args){
         launch(args);
     }
+
+
 }
