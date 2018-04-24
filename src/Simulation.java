@@ -23,7 +23,7 @@ public class Simulation {
         this.next = true;
         this.day = 0;
         this.infectedCount = 0;
-        xAxis.setLabel("LOL");
+        xAxis.setLabel("DAY");
         lineChart.setTitle("Kaavio 1");
         fillTargets(30);
     }
@@ -64,8 +64,9 @@ public class Simulation {
 
     public GridPane getGrid(){
         XYChart.Series series = new XYChart.Series();
-        series.setName("hellou");
+        series.setName("Day: " + this.day);
         series.getData().add(new XYChart.Data(this.day, this.infectedCount));
+        series.getData().add(new XYChart.Data(this.day, (this.targets.length - this.infectedCount)));
         lineChart.getData().add(series);
         GridPane grid = new GridPane();
         grid.setHgap(10);
