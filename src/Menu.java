@@ -4,17 +4,17 @@ import javafx.scene.layout.VBox;
 
 public class Menu {
 
-    private static VBox vbox = new VBox(10);
+    private static VBox vbox = new VBox(5);
     private static Slider targetCount = new Slider(1.0, 1000.0, 1.0);
     private static Slider infectionChance = new Slider(1.0, 100.0, 1.0);
 
     public static void createMenu(){
 
-        vbox.setMaxWidth(300.0);
+        vbox.setMaxWidth(500.0);
         targetCount.setShowTickLabels(true);
         targetCount.setShowTickMarks(true);
-        targetCount.setMajorTickUnit(50);
-        targetCount.setMinorTickCount(5);
+        targetCount.setMajorTickUnit(499);
+        targetCount.setMinorTickCount(100);
         targetCount.setSnapToTicks(true);
         Label targetCountValue = new Label("Targets: " + Double.toString(targetCount.getValue()));
         targetCount.valueProperty().addListener((observable, oldValue, newValue) ->{
