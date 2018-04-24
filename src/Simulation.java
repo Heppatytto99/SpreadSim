@@ -7,6 +7,8 @@ import javafx.scene.text.Text;
 
 public class Simulation {
 
+
+
     private Target[] targets;
     private Virus virus;
     private NumberAxis xAxis = new NumberAxis();
@@ -25,6 +27,7 @@ public class Simulation {
         this.infectedCount = 0;
         xAxis.setLabel("DAY");
         lineChart.setTitle("Virus Data");
+
         fillTargets(30);
     }
 
@@ -71,15 +74,15 @@ public class Simulation {
         grid.setHgap(10);
         grid.setVgap(10);
 
-        Text dayText = new Text("Day: " + this.day);
-        Text infectedText = new Text("Infected: " + this.infectedCount);
-        Text targetText = new Text("Targets: ");
-
+        //Text dayText = new Text("Day: " + this.day);
+        //Text infectedText = new Text("Infected: " + this.infectedCount);
+        //Text targetText = new Text("Targets: ");
 
         grid.setPadding(new Insets(0,10,0,10));
-        grid.add(dayText, 1,2);
-        grid.add(infectedText, 1,1);
-        grid.add(lineChart, 2, 2);
+        //grid.add(dayText, 1,2);
+        //grid.add(infectedText, 1,1);
+        grid.add(lineChart, 2,2);
+        
 
         return grid;
     }
@@ -93,14 +96,8 @@ public class Simulation {
         grid.setHgap(10);
         grid.setVgap(10);
 
-        Text dayText = new Text("Day: " + this.day);
-        Text infectedText = new Text("Infected: " + this.infectedCount);
-        Text targetText = new Text("Targets: ");
-
-
         grid.setPadding(new Insets(0,10,0,10));
-        grid.add(dayText, 1,2);
-        grid.add(infectedText, 1,1);
+
         grid.add(lineChart, 2, 2);
 
         return grid;
