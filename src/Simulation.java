@@ -44,6 +44,7 @@ public class Simulation {
     public void next(){
         if(this.next){
             this.infectedCount = Target.countInfected(this.targets);
+            System.out.println("\nDay: " + this.day + "\nCurrently healthy: " + (this.targets.length - this.infectedCount));
             System.out.println("\nDay: " + this.day + "\nCurrently infected: " + this.infectedCount);
 
             this.virus.spread(this.targets);

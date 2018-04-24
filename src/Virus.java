@@ -4,6 +4,7 @@ public class Virus{
 
     private int infectionChance;
     private String name;
+    private int resistanceValue = 100;
 
     public Virus(int infectionChance, String name) {
         this.infectionChance = infectionChance;
@@ -18,7 +19,7 @@ public class Virus{
     jotka on suurempia kuin infectionChance. Eli 70/100 = 70% ja 30/100 = 30%
      */
     private boolean infect(){
-        int i = ThreadLocalRandom.current().nextInt(0, 10000);
+        int i = ThreadLocalRandom.current().nextInt(0, this.resistanceValue);
         return !(i > this.infectionChance);
     }
 
@@ -36,10 +37,12 @@ public class Virus{
                 if(infect() != target.resist()){
                     target.infect(this);
                 }
-                //else {
+                else {
+                    this.resistanceValue -= 10;
                 // Voidaan esim laskea viruksen kykyä tarttua jos uhri onnistuu resistoimaan ym. laskutoimituksia
                 //}
             }
         }
     }
+}
 }
