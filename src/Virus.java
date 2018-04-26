@@ -2,25 +2,24 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Virus{
 
-    private int infectionChance;
+    private double infectionValue;
     private String name;
-    private int resistanceValue = 100;
 
-    public Virus(int infectionChance, String name) {
-        this.infectionChance = infectionChance;
+    public Virus(int infectionValue, String name) {
+        this.infectionValue = infectionValue;
         this.name = name;
     }
 
-    /*
-    Luo satunnaisen kokonaisluvun 'i' väliltä 0 - 100 ja palauttaa true
-    jos i ei ole suurempi kuin tämän mahdollisuus tartuttaa.
-    ESIM. Viruksen mahdollisuus tartuttaa on 70% eli infectionChance on 70.
-    Random funktiolla voi saada 70 lukua jotka ovat alle infectionChance ja 30 lukua
-    jotka on suurempia kuin infectionChance. Eli 70/100 = 70% ja 30/100 = 30%
-     */
     private boolean infect(){
-        int i = ThreadLocalRandom.current().nextInt(0, this.resistanceValue);
-        return !(i > this.infectionChance);
+        // infectionvalue C
+        // C = 1
+        // i < C
+        // 1 hyvä 99 huono
+        // C = 80
+        // i < C
+        // 80 hyvää 20 huonoa
+        int i = ThreadLocalRandom.current().nextInt(0, 100);
+        return i < this.infectionValue;
     }
 
     public String toString(){
@@ -32,12 +31,16 @@ public class Virus{
     target 'tartutetaan' tällä viruksella.
      */
     public void spread(Target[] targets){
+        System.out.println(this.infectionValue + " infection before");
         for(Target target : targets){
             if(!target.isInfected()){
-                if(infect() != target.resist()){
+                if(infect() && !target.resist()){
                     target.infect(this);
+                    this.infectionValue -= 0.02;
                 }
                 else {
+                    this.infectionValue += 0.001;
+                    //this.infectionValue += 0.0002;
                   //Tää aiheuttaa vielä ongelmia, koska Java FX
                   //ei tykkää kun sen alkiperäisarvoista poiketaan
                     //this.resistanceValue -= 0.1;
@@ -46,5 +49,6 @@ public class Virus{
             }
         }
     }
+        System.out.println(this.infectionValue + " Infection");
 }
 }

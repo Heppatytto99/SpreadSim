@@ -25,9 +25,14 @@ public class Target{
     /*
     Sama kuin infect()
      */
+    // 100 lukua
+    // resistance 30
+    // i < resistance = 30 lukua
+    // 30 / 100 = 30%
+
     public boolean resist(){
         int i = ThreadLocalRandom.current().nextInt(0, 100);
-        return !(i > this.resistance);
+        return i < this.resistance;
     }
 
     public boolean isInfected(){

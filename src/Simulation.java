@@ -28,10 +28,11 @@ public class Simulation {
         xAxis.setLabel("TIME IN DAYS");
         yAxis.setLabel("POPULATION");
         lineChart.setTitle("VIRUS DATA");
-        fillTargets(30);
+        fillTargets(5);
         lineChart.setMinSize(800, 600);
         lineChart.getData().add(series);
         lineChart.getData().add(series2);
+        addData();
     }
 
     /*
@@ -49,43 +50,37 @@ public class Simulation {
     */
     public void next(){
         if(this.next){
-            this.infectedCount = Target.countInfected(this.targets);
-            System.out.println("\nDay: " + this.day + "\nCurrently healthy: " + (this.targets.length - this.infectedCount));
-            System.out.println("\nDay: " + this.day + "\nCurrently infected: " + this.infectedCount);
+
 
             this.virus.spread(this.targets);
-            int newInfectedCount = Target.countInfected(this.targets) - this.infectedCount;
 
-            System.out.println("The virus spreads...\nNew infected targets: " + newInfectedCount);
+            int newInfectedCount = Target.countInfected(this.targets) - this.infectedCount;
+            this.infectedCount = Target.countInfected(this.targets);
 
             if(this.infectedCount + newInfectedCount == this.targets.length){
                 this.next = false;
                 System.out.println("It took " + this.day + " days to infect everything");
             }
             this.day++;
+            addData();
         } else {
             //endSimulation();
         }
     }
 
-    public GridPane getGrid(){
+    private void addData(){
         series.setName("Infected: " + this.day);
         series.getData().add(new XYChart.Data(this.day, this.infectedCount));
-        series2.setName("Health");
+        series2.setName("Healthy " + (this.targetCount - this.infectedCount));
         series2.getData().add(new XYChart.Data(this.day, (this.targets.length - this.infectedCount)));
+    }
 
-        System.out.println(Arrays.toString(series.getData().toArray()));
+    public GridPane getGrid(){
 
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
-        //Text dayText = new Text("Day: " + this.day);
-        //Text infectedText = new Text("Infected: " + this.infectedCount);
-        //Text targetText = new Text("Targets: ");
-
         grid.setPadding(new Insets(0,10,0,10));
-        //grid.add(dayText, 1,2);
-        //grid.add(infectedText, 1,1);
         grid.add(lineChart, 2,2);
 
         return grid;
