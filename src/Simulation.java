@@ -3,17 +3,17 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
+import java.util.Arrays;
 
 public class Simulation {
-
-
 
     private Target[] targets;
     private Virus virus;
     private NumberAxis xAxis = new NumberAxis();
     private NumberAxis yAxis = new NumberAxis();
     private LineChart<Number,Number> lineChart = new LineChart<Number, Number>(xAxis,yAxis);
+    private XYChart.Series series = new XYChart.Series();
+    private XYChart.Series series2 = new XYChart.Series();
     private boolean next;
     private int day;
     private int infectedCount;
@@ -28,8 +28,10 @@ public class Simulation {
         xAxis.setLabel("TIME IN DAYS");
         yAxis.setLabel("POPULATION");
         lineChart.setTitle("VIRUS DATA");
-
         fillTargets(30);
+        lineChart.setMinSize(800, 600);
+        lineChart.getData().add(series);
+        lineChart.getData().add(series2);
     }
 
     /*
@@ -67,14 +69,16 @@ public class Simulation {
     }
 
     public GridPane getGrid(){
-        XYChart.Series series = new XYChart.Series();
         series.setName("Infected: " + this.day);
         series.getData().add(new XYChart.Data(this.day, this.infectedCount));
-        lineChart.getData().add(series);
+        series2.setName("Health");
+        series2.getData().add(new XYChart.Data(this.day, (this.targets.length - this.infectedCount)));
+
+        System.out.println(Arrays.toString(series.getData().toArray()));
+
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
-
         //Text dayText = new Text("Day: " + this.day);
         //Text infectedText = new Text("Infected: " + this.infectedCount);
         //Text targetText = new Text("Targets: ");
@@ -83,7 +87,6 @@ public class Simulation {
         //grid.add(dayText, 1,2);
         //grid.add(infectedText, 1,1);
         grid.add(lineChart, 2,2);
-
 
         return grid;
     }
@@ -96,6 +99,8 @@ public class Simulation {
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
+
+        lineChart.setMinSize(800, 600);
 
         grid.setPadding(new Insets(0,10,0,10));
 

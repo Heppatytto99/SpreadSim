@@ -40,7 +40,7 @@ public class Virus{
                 else {
                   //Tää aiheuttaa vielä ongelmia, koska Java FX
                   //ei tykkää kun sen alkiperäisarvoista poiketaan
-                    this.resistanceValue -= 0.1;
+                    //this.resistanceValue -= 0.1;
                 // Voidaan esim laskea viruksen kykyä tarttua jos uhri onnistuu resistoimaan ym. laskutoimituksia
                 //}
             }
