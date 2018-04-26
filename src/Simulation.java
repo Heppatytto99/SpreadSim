@@ -1,106 +1,60 @@
-import javafx.geometry.Insets;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.scene.layout.GridPane;
-import java.util.Arrays;
+import javafx.application.Application;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
-public class Simulation {
+public class Main extends Application{
 
-    private Target[] targets;
-    private Virus virus;
-    private NumberAxis xAxis = new NumberAxis();
-    private NumberAxis yAxis = new NumberAxis();
-    private LineChart<Number,Number> lineChart = new LineChart<Number, Number>(xAxis,yAxis);
-    private XYChart.Series series = new XYChart.Series();
-    private XYChart.Series series2 = new XYChart.Series();
-    private boolean next;
-    private int day;
-    private int infectedCount;
-    private int targetCount;
+    private Stage stage;
+    private Simulation simulation;
+    private SimpleBooleanProperty ready = new SimpleBooleanProperty(true);
 
-    public Simulation(int TARGETSIZE, int INFECTIONCHANCE){
-        this.targets = new Target[TARGETSIZE];
-        this.virus = new Virus(INFECTIONCHANCE, "kakkavirus");
-        this.next = true;
-        this.day = 0;
-        this.infectedCount = 0;
-        xAxis.setLabel("TIME IN DAYS");
-        yAxis.setLabel("POPULATION");
-        lineChart.setTitle("VIRUS DATA");
-        fillTargets(5);
-        lineChart.setMinSize(800, 600);
-        lineChart.getData().add(series);
-        lineChart.getData().add(series2);
-        addData();
+    public void start(Stage primaryStage) throws Exception{
+
+        stage = primaryStage;
+        stage.setTitle("VIRUS SIMULATION");
+        BorderPane border = new BorderPane();
+        Menu.createMenu();
+        Menu.getNextButton().setOnAction(e ->{
+            simulation.next();
+            border.setCenter(simulation.getGrid());
+            //border.setCenter(simulation.getGridTwo());
+        });
+        Menu.getNextButton().setDisable(this.ready.getValue());
+        Menu.getPrevButton().setDisable(this.ready.getValue());
+        Menu.getNewSimButton().setOnAction(e -> {
+            this.simulation = new Simulation((int)Menu.getTargetSlider().getValue(), (int)Menu.getInfectionChanceSlider().getValue());
+            ready.set(false);
+            border.setCenter(this.simulation.getGrid());
+            //border.setCenter(this.simulation.getGridTwo());
+        });
+        Menu.getCloseSimButton().setOnAction(e ->{
+            ready.setValue(true);
+        });
+        Menu.getCloseSimButton().setDisable(this.ready.getValue());
+        border.setLeft(Menu.getBox());
+
+        ready.addListener((observable, oldValue, newValue) -> {
+            System.out.println(newValue);
+            Menu.getNextButton().setDisable(newValue);
+            Menu.getPrevButton().setDisable(newValue);
+            Menu.getCloseSimButton().setDisable(newValue);
+        });
+
+        Scene scene = new Scene(border, 800, 600);
+        stage.setScene(scene);
+
+        // Add css for styling
+        scene.getStylesheets().clear();
+        scene.getStylesheets().add("http://users.metropolia.fi/~petrasil/style.css");
+
+        stage.show();
     }
 
-    /*
-    Täyttää targets listan täyteen uusia targetteja valitulla 'resistancella'
-     */
-    private void fillTargets(int resistance){
-        for(int i = 0; i < this.targets.length; i++){
-            this.targets[i] = new Target(resistance);
-        }
+    public static void main(String[] args){
+        launch(args);
     }
 
-    /*
-    Luuppaa niin pitkään kunnes 'next' muuttuu falseksi. Kerää ja tulostaa saastutettujen määrän
-    sekä lisää päiviä. Jos kaikki listan targetit on saastutettu luuppaaminen lopetetaan ja 'next' asetetaan falseksi.
-    */
-    public void next(){
-        if(this.next){
 
-
-            this.virus.spread(this.targets);
-
-            int newInfectedCount = Target.countInfected(this.targets) - this.infectedCount;
-            this.infectedCount = Target.countInfected(this.targets);
-
-            if(this.infectedCount + newInfectedCount == this.targets.length){
-                this.next = false;
-                System.out.println("It took " + this.day + " days to infect everything");
-            }
-            this.day++;
-            addData();
-        } else {
-            //endSimulation();
-        }
-    }
-
-    private void addData(){
-        series.setName("Infected: " + this.day);
-        series.getData().add(new XYChart.Data(this.day, this.infectedCount));
-        series2.setName("Healthy " + (this.targetCount - this.infectedCount));
-        series2.getData().add(new XYChart.Data(this.day, (this.targets.length - this.infectedCount)));
-    }
-
-    public GridPane getGrid(){
-
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(0,10,0,10));
-        grid.add(lineChart, 2,2);
-
-        return grid;
-    }
-
-    public GridPane getGridTwo(){
-        XYChart.Series series = new XYChart.Series();
-        series.setName("Healthy: " + this.day);
-        series.getData().add(new XYChart.Data(this.day, (this.targets.length - this.infectedCount)));
-        lineChart.getData().add(series);
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-
-        lineChart.setMinSize(800, 600);
-
-        grid.setPadding(new Insets(0,10,0,10));
-
-        grid.add(lineChart, 2, 2);
-
-        return grid;
-    }
 }
