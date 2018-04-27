@@ -12,7 +12,8 @@ public class Menu {
     private static Button prev = new Button("PREVIOUS");
     private static Button newSimulation = new Button("NEW SIMULATION");
     private static Button closeSimulation = new Button("CLOSE SIMULATION");
-
+    private static Slider birth = new Slider(1.0, 100, 1.0);
+    
     public static Button getNextButton(){
         return next;
     }
@@ -32,35 +33,50 @@ public class Menu {
     public static void createMenu(){
 
         vbox.setMaxWidth(500.0);
-        //targetCount.setShowTickLabels(true);
-        //targetCount.setShowTickMarks(true);
-        //targetCount.setMajorTickUnit(499);
+        targetCount.setShowTickLabels(true);
+        targetCount.setShowTickMarks(true);
+        targetCount.setMajorTickUnit(499999);
         //targetCount.setMinorTickCount(100);
         //targetCount.setSnapToTicks(true);
-        Label targetCountValue = new Label("Targets: " + Double.toString(targetCount.getValue()));
+        Label targetCountValue = new Label("TARGET POPULATION: " + Double.toString(targetCount.getValue()));
         targetCount.valueProperty().addListener((observable, oldValue, newValue) ->{
             targetCount.setValue(newValue.intValue());
-            targetCountValue.setText("Targets: " + Double.toString(targetCount.getValue()));
+            targetCountValue.setText("TARGET POPULATION: " + Double.toString(targetCount.getValue()));
         });
-
+        
         infectionChance.setShowTickLabels(true);
         infectionChance.setShowTickMarks(true);
         infectionChance.setMajorTickUnit(49);
-        infectionChance.setMinorTickCount(1);
-        infectionChance.setSnapToTicks(true);
-        Label infectionChanceValue = new Label("Infection Chance %: " + Double.toString(infectionChance.getValue()));
+        //infectionChance.setMinorTickCount(1);
+        //infectionChance.setSnapToTicks(true);
+        Label infectionChanceValue = new Label("INEFECTION CHANCE %: " + Double.toString(infectionChance.getValue()));
         infectionChance.valueProperty().addListener((observable, oldValue, newValue) ->{
             infectionChance.setValue(newValue.intValue());
-            infectionChanceValue.setText("Infection Chance %: " + Double.toString(infectionChance.getValue()));
+            infectionChanceValue.setText("INFECTION CHANCE %: " + Double.toString(infectionChance.getValue()));
         });
 
-        vbox.getChildren().addAll(targetCountValue, targetCount,infectionChanceValue, infectionChance, next,prev,newSimulation,closeSimulation);
+        birth.setShowTickLabels(true);
+        birth.setShowTickMarks(true);
+        birth.setMajorTickUnit(49);
+        //targetCount.setMinorTickCount(100);
+        //targetCount.setSnapToTicks(true);
+        Label birthValue = new Label("BIRTHRATE %: " + Double.toString(birth.getValue()));
+        birth.valueProperty().addListener((observable, oldValue, newValue) ->{
+            birth.setValue(newValue.intValue());
+            birthValue.setText("BIRTHRATE %: " + Double.toString(birth.getValue()));
+        });
+        
+        vbox.getChildren().addAll(targetCountValue, targetCount,infectionChanceValue, infectionChance, birthValue, birth, next,prev,newSimulation,closeSimulation);
     }
 
     public static VBox getBox(){
         return Menu.vbox;
     }
 
+    public static Slider getBirthSlider(){
+        return Menu.birth;
+    }
+    
     public static Slider getTargetSlider(){
         return Menu.targetCount;
     }
