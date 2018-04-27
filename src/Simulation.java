@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Simulation {
 
-    private Target[] targets;
+    private ArrayList <Target> targets;
     private Virus virus;
     private NumberAxis xAxis = new NumberAxis();
     private NumberAxis yAxis = new NumberAxis();
@@ -19,9 +19,10 @@ public class Simulation {
     private int day;
     private int infectedCount;
     private int targetCount;
-
+    private int placeholderBirth = 1000000;
+    
     public Simulation(int TARGETSIZE, int INFECTIONCHANCE){
-        this.targets = new Target[TARGETSIZE];
+        this.targets = new ArrayList <Target>(TARGETSIZE);
         this.virus = new Virus(INFECTIONCHANCE, "kakkavirus");
         this.next = true;
         this.day = 0;
@@ -40,8 +41,8 @@ public class Simulation {
     Täyttää targets listan täyteen uusia targetteja valitulla 'resistancella'
      */
     private void fillTargets(int resistance){
-        for(int i = 0; i < this.targets.length; i++){
-            this.targets[i] = new Target(resistance);
+        for(int i = 0; i < this.targets.size(); i++){
+            this.targets.set(i, new Target(resistance));
         }
     }
 
@@ -58,7 +59,7 @@ public class Simulation {
             int newInfectedCount = Target.countInfected(this.targets) - this.infectedCount;
             this.infectedCount = Target.countInfected(this.targets);
 
-            if(this.infectedCount + newInfectedCount == this.targets.length){
+            if(this.infectedCount + newInfectedCount == this.targets.size()){
                 this.next = false;
                 System.out.println("It took " + this.day + " days to infect everything");
             }
@@ -73,8 +74,8 @@ public class Simulation {
         xAxis.setLabel("TIME IN DAYS: " + this.day);
         series.setName("Infected: " + this.infectedCount);
         series.getData().add(new XYChart.Data(this.day, this.infectedCount));
-        series2.setName("Healthy: " + (this.targets.length - this.infectedCount));
-        series2.getData().add(new XYChart.Data(this.day, (this.targets.length - this.infectedCount)));
+        series2.setName("Healthy: " + (this.targets.size() - this.infectedCount));
+        series2.getData().add(new XYChart.Data(this.day, (this.targets.size() - this.infectedCount)));
     }
 
     public GridPane getGrid(){
@@ -91,7 +92,7 @@ public class Simulation {
     public GridPane getGridTwo(){
         XYChart.Series series = new XYChart.Series();
         series.setName("Healthy: " + this.day);
-        series.getData().add(new XYChart.Data(this.day, (this.targets.length - this.infectedCount)));
+        series.getData().add(new XYChart.Data(this.day, (this.targets.size() - this.infectedCount)));
         lineChart.getData().add(series);
         GridPane grid = new GridPane();
         grid.setHgap(10);
