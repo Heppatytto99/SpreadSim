@@ -1,6 +1,8 @@
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Target{
+
 
     private int resistance;
     private boolean infected;
@@ -13,7 +15,7 @@ public class Target{
     /*
     Laskee 'targets' listan tarttuneet ja palauttaa lukumäärän.
      */
-    public static int countInfected(Target[] targets){
+    public static int countInfected(ArrayList<Target> targets){
         int infected = 0;
         for(Target target : targets){
             if(target.infected){
