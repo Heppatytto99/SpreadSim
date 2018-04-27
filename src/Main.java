@@ -42,7 +42,7 @@ public class Main extends Application{
             Menu.getCloseSimButton().setDisable(newValue);
         });
 
-        Scene scene = new Scene(border, 800, 600);
+        Scene scene = new Scene(border, 1024, 768);
         stage.setScene(scene);
 
         // Add css for styling
