@@ -13,7 +13,12 @@ public class Menu {
     private static Button newSimulation = new Button("NEW SIMULATION");
     private static Button closeSimulation = new Button("CLOSE SIMULATION");
     private static Slider birth = new Slider(1.0, 100, 1.0);
-    
+    private static Button auto = new Button("AUTOMATIC");
+
+    public static Button getAutoButton(){
+        return auto;
+    }
+
     public static Button getNextButton(){
         return next;
     }
@@ -43,7 +48,7 @@ public class Menu {
             targetCount.setValue(newValue.intValue());
             targetCountValue.setText("TARGET POPULATION: " + Double.toString(targetCount.getValue()));
         });
-        
+
         infectionChance.setShowTickLabels(true);
         infectionChance.setShowTickMarks(true);
         infectionChance.setMajorTickUnit(49);
@@ -65,8 +70,8 @@ public class Menu {
             birth.setValue(newValue.intValue());
             birthValue.setText("BIRTHRATE %: " + Double.toString(birth.getValue()));
         });
-        
-        vbox.getChildren().addAll(targetCountValue, targetCount,infectionChanceValue, infectionChance, birthValue, birth, next,prev,newSimulation,closeSimulation);
+
+        vbox.getChildren().addAll(targetCountValue, targetCount,infectionChanceValue, infectionChance, birthValue, birth, next,prev, auto, newSimulation,closeSimulation);
     }
 
     public static VBox getBox(){
@@ -76,7 +81,7 @@ public class Menu {
     public static Slider getBirthSlider(){
         return Menu.birth;
     }
-    
+
     public static Slider getTargetSlider(){
         return Menu.targetCount;
     }

@@ -1,3 +1,5 @@
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Scene;
@@ -16,11 +18,23 @@ public class Main extends Application{
         stage.setTitle("VIRUS SIMULATION");
         BorderPane border = new BorderPane();
         Menu.createMenu();
+
+        Menu.getAutoButton().setOnAction(e ->{
+             try {
+                simulation.auto();
+                border.setCenter(simulation.getGrid());
+                //border.setCenter(simulation.getGridTwo());
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+
         Menu.getNextButton().setOnAction(e ->{
             simulation.next();
             border.setCenter(simulation.getGrid());
             //border.setCenter(simulation.getGridTwo());
         });
+        Menu.getAutoButton().setDisable(this.ready.getValue());
         Menu.getNextButton().setDisable(this.ready.getValue());
         Menu.getPrevButton().setDisable(this.ready.getValue());
         Menu.getNewSimButton().setOnAction(e -> {
@@ -37,6 +51,7 @@ public class Main extends Application{
 
         ready.addListener((observable, oldValue, newValue) -> {
             System.out.println(newValue);
+            Menu.getAutoButton().setDisable(newValue);
             Menu.getNextButton().setDisable(newValue);
             Menu.getPrevButton().setDisable(newValue);
             Menu.getCloseSimButton().setDisable(newValue);

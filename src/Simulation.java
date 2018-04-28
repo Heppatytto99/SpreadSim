@@ -16,6 +16,7 @@ public class Simulation {
     private XYChart.Series series = new XYChart.Series();
     private XYChart.Series series2 = new XYChart.Series();
     private boolean next;
+    private boolean auto;
     private int day;
     private int infectedCount;
     private int targetCount;
@@ -24,6 +25,7 @@ public class Simulation {
         this.targets = new Target[TARGETSIZE];
         this.virus = new Virus(INFECTIONCHANCE, "kakkavirus");
         this.next = true;
+        this.auto = true;
         this.day = 0;
         this.infectedCount = 0;
         xAxis.setLabel("TIME IN DAYS: " + this.day);
@@ -68,6 +70,28 @@ public class Simulation {
             //endSimulation();
         }
     }
+
+    public void auto()throws InterruptedException {
+
+
+            if(this.auto) {
+            while(auto){
+                Thread.sleep(500);
+            this.virus.spread(this.targets);
+
+            int newInfectedCount = Target.countInfected(this.targets) - this.infectedCount;
+            this.infectedCount = Target.countInfected(this.targets);
+
+            if(this.infectedCount + newInfectedCount == this.targets.length){
+                this.next = false;
+                System.out.println("It took " + this.day + " days to infect everything");
+            }
+            this.day++;
+            addData();
+        }
+        }
+        }
+
 
     private void addData(){
         xAxis.setLabel("TIME IN DAYS: " + this.day);
