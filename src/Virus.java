@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Virus{
@@ -30,8 +31,7 @@ public class Virus{
     Käy läpi jokaisen Targetin 'targets' listasta. Jos infect() onnistuu ja targetin resist() epäonnistuu,
     target 'tartutetaan' tällä viruksella.
      */
-    public void spread(Target[] targets){
-        System.out.println(this.infectionValue + " infection before");
+    public void spread(ArrayList<Target> targets){
         for(Target target : targets){
             if(!target.isInfected()){
                 if(infect() && !target.resist()){
@@ -49,6 +49,5 @@ public class Virus{
             }
         }
     }
-        System.out.println(this.infectionValue + " Infection");
-}
+    }
 }

@@ -6,14 +6,18 @@ import javafx.scene.layout.VBox;
 public class Menu {
 
     private static VBox vbox = new VBox(5);
+
     private static Slider targetCount = new Slider(1.0, 1000000.0, 1.0);
     private static Slider infectionChance = new Slider(1.0, 100.0, 1.0);
+    private static Slider birth = new Slider(1.0, 100, 1.0);
+
     private static Button next = new Button("NEXT");
     private static Button prev = new Button("PREVIOUS");
     private static Button newSimulation = new Button("NEW SIMULATION");
     private static Button closeSimulation = new Button("CLOSE SIMULATION");
-    private static Slider birth = new Slider(1.0, 100, 1.0);
     private static Button auto = new Button("AUTOMATIC");
+
+
 
     public static Button getAutoButton(){
         return auto;
@@ -33,6 +37,22 @@ public class Menu {
 
     public static Button getCloseSimButton(){
         return closeSimulation;
+    }
+
+    public static VBox getBox(){
+        return Menu.vbox;
+    }
+
+    public static Slider getBirthSlider(){
+        return Menu.birth;
+    }
+
+    public static Slider getTargetSlider(){
+        return Menu.targetCount;
+    }
+
+    public static Slider getInfectionChanceSlider(){
+        return Menu.infectionChance;
     }
 
     public static void createMenu(){
@@ -74,19 +94,5 @@ public class Menu {
         vbox.getChildren().addAll(targetCountValue, targetCount,infectionChanceValue, infectionChance, birthValue, birth, next,prev, auto, newSimulation,closeSimulation);
     }
 
-    public static VBox getBox(){
-        return Menu.vbox;
-    }
 
-    public static Slider getBirthSlider(){
-        return Menu.birth;
-    }
-
-    public static Slider getTargetSlider(){
-        return Menu.targetCount;
-    }
-
-    public static Slider getInfectionChanceSlider(){
-        return Menu.infectionChance;
-    }
 }

@@ -1,3 +1,6 @@
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -20,6 +23,8 @@ public class Main extends Application{
         Menu.createMenu();
 
         Menu.getAutoButton().setOnAction(e ->{
+            automatic();
+            /*
              try {
                 simulation.auto();
                 border.setCenter(simulation.getGrid());
@@ -27,6 +32,7 @@ public class Main extends Application{
             } catch (InterruptedException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
+            */
         });
 
         Menu.getNextButton().setOnAction(e ->{
@@ -66,6 +72,12 @@ public class Main extends Application{
 
         stage.show();
     }
+
+    private void automatic(){
+            final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+            executorService.scheduleAtFixedRate(() -> simulation.next(), 0, 1, TimeUnit.SECONDS);
+    }
+
 
     public static void main(String[] args){
         launch(args);

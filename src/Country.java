@@ -1,4 +1,5 @@
 public class Country {
+
     private int population;
     private int resistance;
 

@@ -1,0 +1,3 @@
+public enum Status {
+    STATUS_INFECTED, STATUS_HEALTHY, STATUS_DEAD;
+}
