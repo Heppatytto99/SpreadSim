@@ -1,4 +1,5 @@
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
@@ -91,8 +92,27 @@ public class Menu {
             birthValue.setText("BIRTHRATE %: " + Double.toString(birth.getValue()));
         });
 
-        vbox.getChildren().addAll(targetCountValue, targetCount,infectionChanceValue, infectionChance, birthValue, birth, next,prev, auto, newSimulation,closeSimulation);
-    }
+                //choicebox
+        Label dropDownMenu = new Label("Population presets:");
+        ChoiceBox<String> choiceBox = new ChoiceBox<>();
+        choiceBox.getItems().addAll("Finland", "Sweden");
+        choiceBox.setOnAction(e -> setChoice(choiceBox));
 
+        
+        vbox.getChildren().addAll(dropDownMenu, choiceBox, targetCountValue, targetCount,infectionChanceValue, infectionChance, birthValue, birth, next,prev, auto, newSimulation,closeSimulation);
+    }
+    
+    //dropdown menu paskaa tästä alaspäin
+    
+    public static void setChoice(ChoiceBox<String> choiceBox){
+        switch (choiceBox.getValue()){
+            case "Finland": targetCount.setValue(5523231);
+                            break;
+            case "Sweden":  targetCount.setValue(9910701);
+                            break;
+            case "Default": System.out.println("test");
+                            break;
+        }
+    }
 
 }
