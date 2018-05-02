@@ -44,13 +44,18 @@ public class Main extends Application{
         Menu.getNextButton().setDisable(this.ready.getValue());
         Menu.getPrevButton().setDisable(this.ready.getValue());
         Menu.getNewSimButton().setOnAction(e -> {
-            this.simulation = new Simulation((int)Menu.getTargetSlider().getValue(), (int)Menu.getInfectionChanceSlider().getValue());
+            this.simulation = new Simulation(
+                    (int)Menu.getTargetSlider().getValue(),
+                    (int)Menu.getInfectionChanceSlider().getValue(),
+                    Menu.getBirthSlider().getValue());
             ready.set(false);
             border.setCenter(this.simulation.getGrid());
             //border.setCenter(this.simulation.getGridTwo());
         });
         Menu.getCloseSimButton().setOnAction(e ->{
             ready.setValue(true);
+            border.setCenter(null);
+            //this.simulation.endSimulation();
         });
         Menu.getCloseSimButton().setDisable(this.ready.getValue());
         border.setLeft(Menu.getBox());
@@ -63,7 +68,7 @@ public class Main extends Application{
             Menu.getCloseSimButton().setDisable(newValue);
         });
 
-        Scene scene = new Scene(border, 800, 600);
+        Scene scene = new Scene(border,1200 ,800);
         stage.setScene(scene);
 
         // Add css for styling
@@ -78,10 +83,7 @@ public class Main extends Application{
             executorService.scheduleAtFixedRate(() -> simulation.next(), 0, 1, TimeUnit.SECONDS);
     }
 
-
     public static void main(String[] args){
         launch(args);
     }
-
-
 }

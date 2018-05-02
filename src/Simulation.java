@@ -2,6 +2,7 @@ import javafx.geometry.Insets;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.GridPane;
 import java.util.*;
 
@@ -18,23 +19,24 @@ public class Simulation {
     private XYChart.Series infected = new XYChart.Series();
     private XYChart.Series healthy = new XYChart.Series();
     private XYChart.Series born = new XYChart.Series();
-    //private XYChart.Series dead = new XYChart.Series();
+    private XYChart.Series dead = new XYChart.Series();
 
     private ArrayList<XYChart.Data> totalPopulationData = new ArrayList<>();
     private ArrayList<XYChart.Data> infectedData = new ArrayList<>();
     private ArrayList<XYChart.Data> healthyData = new ArrayList<>();
     private ArrayList<XYChart.Data> bornData = new ArrayList<>();
-    //private ArrayList<XYChart.Data> deadData = new ArrayList<>();
+    private ArrayList<XYChart.Data> deadData = new ArrayList<>();
 
     private boolean auto;
     private int dayz;
     private int lastDay;
     private int infectedCount;
     private int targetCount;
+    private double birthRate;
 
-    public Simulation(int TARGETSIZE, int INFECTIONCHANCE){
+    public Simulation(int TARGETSIZE, int INFECTIONCHANCE, double birthRate){
         Target.fill(this.targets, TARGETSIZE, 30);
-        this.virus = new Virus(INFECTIONCHANCE, "kakkavirus");
+        this.virus = new Virus(INFECTIONCHANCE,  3,"kakkavirus");
         this.auto = true;
         this.dayz = 0;
         this.infectedCount = 0;
@@ -42,16 +44,19 @@ public class Simulation {
         yAxis.setLabel("POPULATION");
         lineChart.setTitle("VIRUS DATA");
         lineChart.setMinSize(1024, 768);
+        this.birthRate = birthRate / 100;
 
         totalPopulation.setName("Total Population");
         infected.setName("Total infected");
         healthy.setName("Total healthy");
         born.setName("Total Born");
+        dead.setName("Total dead");
 
         lineChart.getData().add(totalPopulation);
         lineChart.getData().add(infected);
         lineChart.getData().add(healthy);
         lineChart.getData().add(born);
+        lineChart.getData().add(dead);
 
         addData();
         next();
@@ -66,7 +71,6 @@ public class Simulation {
     }
 
     public void auto()throws InterruptedException {
-
 
             if(this.auto) {
             while(auto){
@@ -90,24 +94,23 @@ public class Simulation {
 
         int day = 0;
         int resistance = 30;
-        double birthRate = 0.002;
         boolean next = true;
 
         while(next){
             this.virus.spread(this.targets);
 
-            int totalPopulation = this.targets.size();
+            int totalPopulation = Target.countTotalPopulation(this.targets);
             int totalInfected = Target.countInfected(this.targets);
             int totalHealthy = Target.countHealthy(this.targets);
-            int newPopulation = (int) (birthRate * totalHealthy);
+            int newPopulation = (int) (this.birthRate * totalHealthy);
+            int deadPopulation = Target.countDead(this.targets);
 
             this.totalPopulationData.add(new XYChart.Data<>(day, totalPopulation));
             this.infectedData.add(new XYChart.Data<>(day, totalInfected));
             this.healthyData.add(new XYChart.Data<>(day, totalHealthy));
             this.bornData.add(new XYChart.Data<>(day, newPopulation));
-            //this.deadData.add(new XYChart.Data<>(day, data));
-
-            next = !(totalHealthy == 0);
+            this.deadData.add(new XYChart.Data<>(day, deadPopulation));
+            next = !(totalHealthy < 10000);
             Target.fill(this.targets, newPopulation, resistance);
             day++;
         }
@@ -120,6 +123,7 @@ public class Simulation {
             infected.getData().add(infectedData.get(this.dayz));
             healthy.getData().add(healthyData.get(this.dayz));
             born.getData().add(bornData.get(this.dayz));
+            dead.getData().add(deadData.get(this.dayz));
             this.dayz++;
         }
     }
@@ -149,7 +153,6 @@ public class Simulation {
         grid.setPadding(new Insets(0,10,0,10));
 
         grid.add(lineChart, 2, 2);
-
         return grid;
     }
 }

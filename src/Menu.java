@@ -9,7 +9,7 @@ public class Menu {
 
     private static Slider targetCount = new Slider(1.0, 1000000.0, 1.0);
     private static Slider infectionChance = new Slider(1.0, 100.0, 1.0);
-    private static Slider birth = new Slider(1.0, 100, 1.0);
+    private static Slider birth = new Slider(1.0, 10, 0.1);
 
     private static Button next = new Button("NEXT");
     private static Button prev = new Button("PREVIOUS");

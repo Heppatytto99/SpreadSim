@@ -6,6 +6,7 @@ public class Target{
     private int resistance;
     private boolean infected;
     private Virus infection;
+    private int timer;
     private Status status;
 
     public Target(int resistance){
@@ -41,12 +42,49 @@ public class Target{
     public boolean isInfected(){
         return this.infected;
     }
+
+    public Status getStatus(){return this.status; }
     /*
     Vaihtaa 'infected' arvon true ja liittää viruksen tiedot tähän targettiin.
      */
     public void infect(Virus virus){
         this.infected = true;
         this.status = Status.STATUS_INFECTED;
+        this.infection = virus;
+        this.timer = virus.getIncubationTime();
+    }
+
+    public void tick(){
+        if(this.timer  == 0){
+            if(this.resist()){
+                this.timer = this.infection.getIncubationTime();
+            } else {
+                this.status = Status.STATUS_DEAD;
+            }
+        } else {
+            this.timer--;
+        }
+    }
+
+    public static int countTotalPopulation(ArrayList<Target> targets){
+        int population = 0;
+        for(Target target : targets){
+            if(target.status == Status.STATUS_HEALTHY || target.status == Status.STATUS_INFECTED){
+                population++;
+            }
+        }
+
+        return population;
+    }
+
+    public static int countDead(ArrayList<Target> targets){
+        int dead = 0;
+        for(Target target : targets){
+            if(target.status == Status.STATUS_DEAD){
+                dead++;
+            }
+        }
+        return dead;
     }
 
     public static int countHealthy(ArrayList<Target> targets){
