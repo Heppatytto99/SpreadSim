@@ -8,9 +8,9 @@ public class Menu {
 
     private static VBox vbox = new VBox(5);
 
-    private static Slider targetCount = new Slider(1.0, 1000000.0, 1.0);
+    private static Slider targetCount = new Slider(1.0, 10000000.0, 1.0);
     private static Slider infectionChance = new Slider(1.0, 100.0, 1.0);
-    private static Slider birth = new Slider(1.0, 10, 0.1);
+    private static Slider birth = new Slider(1.0, 100, 0.1);
 
     private static Button next = new Button("NEXT");
     private static Button prev = new Button("PREVIOUS");
@@ -61,7 +61,7 @@ public class Menu {
         vbox.setMaxWidth(500.0);
         targetCount.setShowTickLabels(true);
         targetCount.setShowTickMarks(true);
-        targetCount.setMajorTickUnit(499999);
+        targetCount.setMajorTickUnit(4999999);
         //targetCount.setMinorTickCount(100);
         //targetCount.setSnapToTicks(true);
         Label targetCountValue = new Label("TARGET POPULATION: " + Double.toString(targetCount.getValue()));
@@ -93,25 +93,40 @@ public class Menu {
         });
 
                 //choicebox
-        Label dropDownMenu = new Label("Population presets:");
+        Label dropDownMenu = new Label("POPULATION PRESETS:");
         ChoiceBox<String> choiceBox = new ChoiceBox<>();
-        choiceBox.getItems().addAll("Finland", "Sweden");
+        choiceBox.getItems().addAll("FINLAND", "SWEDEN", "LATVIA", "FIJI", "LUXEMBOURG", "ICELAND", "GREENLAND");
         choiceBox.setOnAction(e -> setChoice(choiceBox));
 
-        
-        vbox.getChildren().addAll(dropDownMenu, choiceBox, targetCountValue, targetCount,infectionChanceValue, infectionChance, birthValue, birth, next,prev, auto, newSimulation,closeSimulation);
+        choiceBox.getSelectionModel().selectFirst();
+
+
+
+
+
+
+        vbox.getChildren().addAll(targetCountValue, targetCount,infectionChanceValue, infectionChance, birthValue, birth, dropDownMenu, choiceBox, next,prev, auto, newSimulation,closeSimulation);
     }
-    
-    //dropdown menu paskaa tästä alaspäin
-    
+
+    //dropdown menu tästä alaspäin
+
     public static void setChoice(ChoiceBox<String> choiceBox){
         switch (choiceBox.getValue()){
-            case "Finland": targetCount.setValue(5523231);
+            case "FINLAND": targetCount.setValue(5523231);
                             break;
-            case "Sweden":  targetCount.setValue(9910701);
+            case "SWEDEN":  targetCount.setValue(9910701);
                             break;
-            case "Default": System.out.println("test");
+            case "LATVIA": targetCount.setValue(1973530);
                             break;
+            case "FIJI": targetCount.setValue(884887);
+                            break;
+            case "LUXEMBOURG":  targetCount.setValue(602005);
+                            break;
+            case "ICELAND": targetCount.setValue(348580);
+                            break;
+            case "GREENLAND": targetCount.setValue(58186);
+                            break;
+
         }
     }
 

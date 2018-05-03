@@ -36,13 +36,13 @@ public class Simulation {
 
     public Simulation(int TARGETSIZE, int INFECTIONCHANCE, double birthRate){
         Target.fill(this.targets, TARGETSIZE, 30);
-        this.virus = new Virus(INFECTIONCHANCE,  3,"kakkavirus");
+        this.virus = new Virus(INFECTIONCHANCE,  3,"placeholder");
         this.auto = true;
         this.dayz = 0;
         this.infectedCount = 0;
         xAxis.setLabel("TIME IN DAYS: " + this.dayz);
         yAxis.setLabel("POPULATION");
-        lineChart.setTitle("VIRUS DATA");
+        lineChart.setTitle("VIRUS SIMULATION DATA");
         lineChart.setMinSize(1024, 768);
         this.birthRate = birthRate / 100;
 
