@@ -102,9 +102,9 @@ public class Menu {
         });
 
                 //choicebox
-        Label dropDownMenu = new Label("Population presets:");
+        Label dropDownMenu = new Label("POPULATION PRESETS:");
         ChoiceBox<String> choiceBox = new ChoiceBox<>();
-        choiceBox.getItems().addAll("Finland", "Sweden");
+        choiceBox.getItems().addAll("FINLAND", "SWEDEN", "LATVIA", "FIJI", "LUXEMBOURG", "ICELAND", "GREENLAND");
         choiceBox.setOnAction(e -> setChoice(choiceBox));
 
         
@@ -116,16 +116,24 @@ public class Menu {
                 next,prev, auto, newSimulation,closeSimulation
         );
     }
-    
-    //dropdown menu paskaa tästä alaspäin
-    
+
+    //dropdown menu tästä alaspäin
+
     public static void setChoice(ChoiceBox<String> choiceBox){
         switch (choiceBox.getValue()){
-            case "Finland": targetCount.setValue(5523231);
+            case "FINLAND": targetCount.setValue(5523231);
                             break;
-            case "Sweden":  targetCount.setValue(9910701);
+            case "SWEDEN":  targetCount.setValue(9910701);
                             break;
-            case "Default": System.out.println("test");
+            case "LATVIA": targetCount.setValue(1973530);
+                            break;
+            case "FIJI": targetCount.setValue(884887);
+                            break;
+            case "LUXEMBOURG":  targetCount.setValue(602005);
+                            break;
+            case "ICELAND": targetCount.setValue(348580);
+                            break;
+            case "GREENLAND": targetCount.setValue(58186);
                             break;
         }
     }
