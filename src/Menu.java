@@ -26,7 +26,7 @@ public class Menu {
     private static Button closeSimulation = new Button("CLOSE SIMULATION");
     private static Button auto = new Button("AUTOMATIC");
     //private static Image imageOk = new Image(Menu.class.getResourceAsStream("Red_Cross.png"));
-    private static ToggleButton clearSelect = new ToggleButton("   "); //antaa välien olla tuolla
+    private static Button clearSelect = new Button("   "); //antaa välien olla tuolla
 
     public static VBox getVbox(){
         return Menu.vbox;
@@ -34,7 +34,7 @@ public class Menu {
 
     public static ChoiceBox<Country> getCbBox() { return Menu.cbBox; }
 
-    public static ToggleButton getClearSelect(){
+    public static Button getClearSelect(){
         return clearSelect;
     }
     
@@ -71,8 +71,11 @@ public class Menu {
     }
 
     public static Slider getIncubationSlider() {return Menu.incubation;}
+    
 
     public static void createMenu(){
+
+        clearSelect.setId("clear");
 
         vbox.setMaxWidth(500.0);
 
