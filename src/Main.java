@@ -1,8 +1,6 @@
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Scene;
@@ -24,15 +22,6 @@ public class Main extends Application{
 
         Menu.getAutoButton().setOnAction(e ->{
             automatic();
-            /*
-             try {
-                simulation.auto();
-                border.setCenter(simulation.getGrid());
-                //border.setCenter(simulation.getGridTwo());
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            */
         });
 
         Menu.getNextButton().setOnAction(e ->{
@@ -45,9 +34,9 @@ public class Main extends Application{
         Menu.getPrevButton().setDisable(this.ready.getValue());
         Menu.getNewSimButton().setOnAction(e -> {
             this.simulation = new Simulation(
-                    (int)Menu.getTargetSlider().getValue(),
-                    (int)Menu.getInfectionChanceSlider().getValue(),
-                    Menu.getBirthSlider().getValue());
+                    new Country((int) Menu.getTargetSlider().getValue(),(int) Menu.getBirthSlider().getValue()),
+                    new Virus((int) Menu.getInfectionChanceSlider().getValue(),(int) Menu.getIncubationSlider().getValue())
+            );
             ready.set(false);
             border.setCenter(this.simulation.getGrid());
             //border.setCenter(this.simulation.getGridTwo());

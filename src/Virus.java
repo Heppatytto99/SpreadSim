@@ -1,17 +1,16 @@
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Virus{
 
     private double infectionValue;
     private int incubationTime;
-    private String name;
 
-    public Virus(int infectionValue, int incubationTime, String name) {
+    public Virus(int infectionValue, int incubationTime) {
         this.infectionValue = infectionValue;
         this.incubationTime = incubationTime;
-        System.out.println(this.incubationTime);
-        this.name = name;
     }
 
     public int getIncubationTime(){
@@ -19,19 +18,8 @@ public class Virus{
     }
 
     private boolean infect(){
-        // infectionvalue C
-        // C = 1
-        // i < C
-        // 1 hyvä 99 huono
-        // C = 80
-        // i < C
-        // 80 hyvää 20 huonoa
         int i = ThreadLocalRandom.current().nextInt(0, 100);
         return i < this.infectionValue;
-    }
-
-    public String toString(){
-        return this.name;
     }
 
     /*

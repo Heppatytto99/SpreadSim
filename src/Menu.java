@@ -11,14 +11,13 @@ public class Menu {
     private static Slider targetCount = new Slider(1.0, 1000000.0, 1.0);
     private static Slider infectionChance = new Slider(1.0, 100.0, 1.0);
     private static Slider birth = new Slider(1.0, 10, 0.1);
+    private static Slider incubation = new Slider(1.0, 10, 1);
 
     private static Button next = new Button("NEXT");
     private static Button prev = new Button("PREVIOUS");
     private static Button newSimulation = new Button("NEW SIMULATION");
     private static Button closeSimulation = new Button("CLOSE SIMULATION");
     private static Button auto = new Button("AUTOMATIC");
-
-
 
     public static Button getAutoButton(){
         return auto;
@@ -56,6 +55,8 @@ public class Menu {
         return Menu.infectionChance;
     }
 
+    public static Slider getIncubationSlider() {return Menu.incubation;}
+
     public static void createMenu(){
 
         vbox.setMaxWidth(500.0);
@@ -75,7 +76,7 @@ public class Menu {
         infectionChance.setMajorTickUnit(49);
         //infectionChance.setMinorTickCount(1);
         //infectionChance.setSnapToTicks(true);
-        Label infectionChanceValue = new Label("INEFECTION CHANCE %: " + Double.toString(infectionChance.getValue()));
+        Label infectionChanceValue = new Label("VIRUS INEFECTION CHANCE %: " + Double.toString(infectionChance.getValue()));
         infectionChance.valueProperty().addListener((observable, oldValue, newValue) ->{
             infectionChance.setValue(newValue.intValue());
             infectionChanceValue.setText("INFECTION CHANCE %: " + Double.toString(infectionChance.getValue()));
@@ -92,6 +93,14 @@ public class Menu {
             birthValue.setText("BIRTHRATE %: " + Double.toString(birth.getValue()));
         });
 
+        incubation.setShowTickLabels(true);
+        incubation.setShowTickMarks(true);
+        Label incubationValue = new Label("VIRUS INCUBATION TIME: " + Double.toString(incubation.getValue()));
+        incubation.valueProperty().addListener((observable, oldValue, newValue) ->{
+            incubation.setValue(newValue.intValue());
+            incubationValue.setText("VIRUS INCUBATION TIME: " + Double.toString(incubation.getValue()));
+        });
+
                 //choicebox
         Label dropDownMenu = new Label("Population presets:");
         ChoiceBox<String> choiceBox = new ChoiceBox<>();
@@ -99,7 +108,13 @@ public class Menu {
         choiceBox.setOnAction(e -> setChoice(choiceBox));
 
         
-        vbox.getChildren().addAll(dropDownMenu, choiceBox, targetCountValue, targetCount,infectionChanceValue, infectionChance, birthValue, birth, next,prev, auto, newSimulation,closeSimulation);
+        vbox.getChildren().addAll(dropDownMenu, choiceBox,
+                targetCountValue, targetCount,
+                infectionChanceValue, infectionChance,
+                birthValue, birth,
+                incubationValue,incubation,
+                next,prev, auto, newSimulation,closeSimulation
+        );
     }
     
     //dropdown menu paskaa tästä alaspäin

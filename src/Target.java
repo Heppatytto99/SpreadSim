@@ -14,6 +14,7 @@ public class Target{
         this.infected = false;
         this.status = Status.STATUS_HEALTHY;
     }
+
     /*
     Laskee 'targets' listan tarttuneet ja palauttaa lukumäärän.
      */
@@ -64,37 +65,6 @@ public class Target{
         } else {
             this.timer--;
         }
-    }
-
-    public static int countTotalPopulation(ArrayList<Target> targets){
-        int population = 0;
-        for(Target target : targets){
-            if(target.status == Status.STATUS_HEALTHY || target.status == Status.STATUS_INFECTED){
-                population++;
-            }
-        }
-
-        return population;
-    }
-
-    public static int countDead(ArrayList<Target> targets){
-        int dead = 0;
-        for(Target target : targets){
-            if(target.status == Status.STATUS_DEAD){
-                dead++;
-            }
-        }
-        return dead;
-    }
-
-    public static int countHealthy(ArrayList<Target> targets){
-        int healthy = 0;
-        for(Target target : targets){
-            if(target.status == Status.STATUS_HEALTHY){
-                healthy++;
-            }
-        }
-        return healthy;
     }
 
     public static void fill(ArrayList<Target> targets, int amount, int resistance){
