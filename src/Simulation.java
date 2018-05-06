@@ -74,6 +74,10 @@ public class Simulation {
         addData();
     }
 
+    public Country getCountry(){
+        return this.country;
+    }
+
     private void addData(){
 
         int day = 0;

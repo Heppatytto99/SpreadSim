@@ -7,7 +7,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 
 public class Main extends Application{
 
@@ -41,9 +40,15 @@ public class Main extends Application{
         //New Simulation
         Menu.getNewSimButton().setOnAction(e -> {
             this.simulation = new Simulation(
-                    new Country((int) Menu.getTargetSlider().getValue(),(int) Menu.getBirthSlider().getValue()),
-                    new Virus((int) Menu.getInfectionChanceSlider().getValue(),(int) Menu.getIncubationSlider().getValue())
+                    new Country(
+                            (int) Menu.getTargetSlider().getValue(),
+                            (int) Menu.getBirthSlider().getValue(),
+                            Menu.getTextField().getText()),
+                    new Virus(
+                            (int) Menu.getInfectionChanceSlider().getValue(),
+                            (int) Menu.getIncubationSlider().getValue())
             );
+            Menu.getCbBox().getItems().add(this.simulation.getCountry());
             ready.set(false);
             border.setCenter(this.simulation.getGrid());
         });
@@ -55,7 +60,15 @@ public class Main extends Application{
         });
         Menu.getCloseSimButton().setDisable(this.ready.getValue());
 
+        //Preset & ClearButton
         addPresets();
+
+        Menu.getClearSelectButton().setOnAction(e -> {
+            Menu.getCbBox().setValue(null);
+            ready.setValue(true);
+            Menu.getTargetSlider().setDisable(false);
+            Menu.getBirthSlider().setDisable(false);
+        });
 
         //Add Listener for BooleanProperty ready
         ready.addListener((observable, oldValue, newValue) -> {
@@ -63,6 +76,7 @@ public class Main extends Application{
             Menu.getNextButton().setDisable(newValue);
             Menu.getPrevButton().setDisable(newValue);
             Menu.getCloseSimButton().setDisable(newValue);
+            Menu.getClearSelectButton().setDisable(newValue);
         });
 
         //Add Buttons to Left Border
@@ -88,13 +102,13 @@ public class Main extends Application{
 
     private void addPresets(){
 
-        Country finland = new Country(5523231, 30, 0.03,"Finland");
-        Country sweden = new Country(9910701, 10, 0.10, "Sweden");
-        Country latvia = new Country(1973530, 20, 0.14, "Latvia");
-        Country fiji = new Country(884887, 50, 0.12, "Fiji");
-        Country luxemburg = new Country(602005, 16, 0.08, "Luxemburg");
-        Country iceland = new Country(348580, 77, 0.02, "Iceland");
-        Country greenland = new Country(58186, 33, 0.1, "Greenland");
+        Country finland = new Country(5523231, 30, 3,"Finland");
+        Country sweden = new Country(9910701, 10, 9, "Sweden");
+        Country latvia = new Country(1973530, 20, 4, "Latvia");
+        Country fiji = new Country(884887, 50, 7, "Fiji");
+        Country luxemburg = new Country(602005, 16, 8, "Luxemburg");
+        Country iceland = new Country(348580, 77, 2, "Iceland");
+        Country greenland = new Country(58186, 33, 10, "Greenland");
 
         Menu.getCbBox().getItems().addAll(finland,sweden,latvia,fiji,luxemburg,iceland,greenland);
     }

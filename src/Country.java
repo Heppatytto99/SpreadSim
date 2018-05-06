@@ -5,6 +5,7 @@ public class Country {
     private String name;
     private int resistance;
     private double birthRate;
+    private int targets;
     private int lastBorn = 0;
     private int dead = 0;
     private int infected = 0;
@@ -13,9 +14,18 @@ public class Country {
     private ArrayList<Target> population = new ArrayList<>();
 
     public Country(int population, int resistance, double birthRate, String name) {
+        this.targets = population;
         Target.fill(this.population, population, resistance);
-        this.birthRate = birthRate;
+        this.birthRate = birthRate / 100;
         this.resistance = resistance;
+        this.name = name;
+    }
+
+    public Country(int population, double birthRate, String name) {
+        this.targets = population;
+        Target.fill(this.population, population, resistance);
+        this.birthRate = birthRate / 100;
+        this.resistance = 30;
         this.name = name;
     }
 
@@ -53,6 +63,18 @@ public class Country {
         return this.lastBorn;
     }
 
+    public int getResistance(){
+        return this.resistance;
+    }
+
+    public int getTargets(){
+        return this.targets;
+    }
+
+    public double getBirthRate(){
+        return this.birthRate;
+    }
+
     public void cleanDead(){
         this.population.removeIf((Target t) -> t.getStatus().equals(Status.STATUS_DEAD));
     }
@@ -60,8 +82,8 @@ public class Country {
     public void update(){
         this.dead = countDead();
         this.infected = countInfected();
-        this.healthy = countHealhty();
-        this.lastBorn = (int) birthRate * this.population.size();
+        this.healthy = countHealthy();
+        this.lastBorn = (int) (birthRate * (getHealthyAmount() + getInfectedAmount()));
         Target.fill(this.population, lastBorn, resistance);
     }
 
@@ -75,7 +97,7 @@ public class Country {
         return infected;
     }
 
-    private int countHealhty(){
+    private int countHealthy(){
         int healthy = 0;
         for(Target target : this.population){
             if (target.getStatus() == Status.STATUS_HEALTHY){

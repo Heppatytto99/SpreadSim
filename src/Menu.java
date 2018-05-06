@@ -1,10 +1,4 @@
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
@@ -12,32 +6,34 @@ import javafx.util.StringConverter;
 public class Menu {
 
     private static VBox vbox = new VBox(5);
-    private static HBox hbox = new HBox();
+    private static HBox hbox = new HBox(6);
     private static ChoiceBox<Country> cbBox = new ChoiceBox<>();
+    private static TextField textField = new TextField("Default country");
 
     private static Slider targetCount = new Slider(1.0, 10000000.0, 1.0);
     private static Slider infectionChance = new Slider(1.0, 100.0, 1.0);
-    private static Slider birth = new Slider(1.0, 10, 0.1);
+    private static Slider birth = new Slider(0.1, 10, 0.1);
     private static Slider incubation = new Slider(1.0, 10, 1);
-    
+
     private static Button next = new Button("NEXT");
     private static Button prev = new Button("PREVIOUS");
     private static Button newSimulation = new Button("NEW SIMULATION");
     private static Button closeSimulation = new Button("CLOSE SIMULATION");
     private static Button auto = new Button("AUTOMATIC");
-    //private static Image imageOk = new Image(Menu.class.getResourceAsStream("Red_Cross.png"));
-    private static ToggleButton clearSelect = new ToggleButton("   "); //antaa välien olla tuolla
+    private static Button clearSelect = new Button("   "); //antaa välien olla tuolla
 
     public static VBox getVbox(){
         return Menu.vbox;
     }
 
-    public static ChoiceBox<Country> getCbBox() { return Menu.cbBox; }
+    public static ChoiceBox<Country> getCbBox() { return cbBox; }
 
-    public static ToggleButton getClearSelect(){
+    public static TextField getTextField() { return textField; }
+
+    public static Button getClearSelectButton(){
         return clearSelect;
     }
-    
+
     public static Button getAutoButton(){
         return auto;
     }
@@ -129,51 +125,34 @@ public class Menu {
             incubationValue.setText("VIRUS INCUBATION TIME: " + Double.toString(incubation.getValue()));
         });
 
-       // ChoiceBox<String> choiceBox = new ChoiceBox<>();
-        //choiceBox.getItems().addAll("FINLAND", "SWEDEN", "LATVIA", "FIJI", "LUXEMBOURG", "ICELAND", "GREENLAND");
-        //choiceBox.setOnAction(e -> setChoice(choiceBox));
-        
-        Label clear = new Label("CLEAR VALUES:");
-        Label options = new Label("SIMULATION CONTROLS:");
+        cbBox.setOnAction(e -> {
+            if(cbBox.getValue() != null){
+                targetCount.setValue(cbBox.getValue().getTargets());
+                targetCount.setDisable(true);
+                birth.setValue(cbBox.getValue().getBirthRate() * 100);
+                birth.setDisable(true);
+            }
+        });
 
-        hbox.setSpacing(6); 
-        hbox.getChildren().addAll(
-                 cbBox, clearSelect
-               
-        );
-        
+        clearSelect.setOnAction(e -> {
+            targetCount.setDisable(false);
+            birth.setDisable(false);
+        });
+        clearSelect.setMaxWidth(6.0);
+
+        Label options = new Label("SIMULATION CONTROLS:");
+        Label textFieldLabel = new Label("NAME:");
+
+        hbox.getChildren().addAll(cbBox, clearSelect);
+
         vbox.getChildren().addAll(
                 targetCountValue, targetCount,
                 infectionChanceValue, infectionChance,
                 birthValue, birth,
                 incubationValue,incubation,
+                textFieldLabel, textField,
                 presets, hbox, options,
                 next,prev, auto, newSimulation,closeSimulation
-                
         );
-        
-        
     }
-
-    //dropdown menu tästä alaspäin
-
-    public static void setChoice(ChoiceBox<String> choiceBox){
-        switch (choiceBox.getValue()){
-            case "FINLAND": targetCount.setValue(5523231);
-                            break;
-            case "SWEDEN":  targetCount.setValue(9910701);
-                            break;
-            case "LATVIA": targetCount.setValue(1973530);
-                            break;
-            case "FIJI": targetCount.setValue(884887);
-                            break;
-            case "LUXEMBOURG":  targetCount.setValue(602005);
-                            break;
-            case "ICELAND": targetCount.setValue(348580);
-                            break;
-            case "GREENLAND": targetCount.setValue(58186);
-                            break;
-        }
-    }
-
 }
