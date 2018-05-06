@@ -2,25 +2,31 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
 public class Menu {
 
     private static VBox vbox = new VBox(5);
+    private static HBox hbox = new HBox();
     private static ChoiceBox<Country> cbBox = new ChoiceBox<>();
 
     private static Slider targetCount = new Slider(1.0, 10000000.0, 1.0);
     private static Slider infectionChance = new Slider(1.0, 100.0, 1.0);
     private static Slider birth = new Slider(1.0, 10, 0.1);
     private static Slider incubation = new Slider(1.0, 10, 1);
-
+    
     private static Button next = new Button("NEXT");
     private static Button prev = new Button("PREVIOUS");
     private static Button newSimulation = new Button("NEW SIMULATION");
     private static Button closeSimulation = new Button("CLOSE SIMULATION");
     private static Button auto = new Button("AUTOMATIC");
-    private static Button clearSelect = new Button("clear");
+    //private static Image imageOk = new Image(Menu.class.getResourceAsStream("Red_Cross.png"));
+    private static ToggleButton clearSelect = new ToggleButton("   "); //antaa välien olla tuolla
 
     public static VBox getVbox(){
         return Menu.vbox;
@@ -28,6 +34,10 @@ public class Menu {
 
     public static ChoiceBox<Country> getCbBox() { return Menu.cbBox; }
 
+    public static ToggleButton getClearSelect(){
+        return clearSelect;
+    }
+    
     public static Button getAutoButton(){
         return auto;
     }
@@ -122,14 +132,27 @@ public class Menu {
        // ChoiceBox<String> choiceBox = new ChoiceBox<>();
         //choiceBox.getItems().addAll("FINLAND", "SWEDEN", "LATVIA", "FIJI", "LUXEMBOURG", "ICELAND", "GREENLAND");
         //choiceBox.setOnAction(e -> setChoice(choiceBox));
+        
+        Label clear = new Label("CLEAR VALUES:");
+        Label options = new Label("SIMULATION CONTROLS:");
 
-        vbox.getChildren().addAll(presets, cbBox,
+        hbox.setSpacing(6); 
+        hbox.getChildren().addAll(
+                 cbBox, clearSelect
+               
+        );
+        
+        vbox.getChildren().addAll(
                 targetCountValue, targetCount,
                 infectionChanceValue, infectionChance,
                 birthValue, birth,
                 incubationValue,incubation,
+                presets, hbox, options,
                 next,prev, auto, newSimulation,closeSimulation
+                
         );
+        
+        
     }
 
     //dropdown menu tästä alaspäin
