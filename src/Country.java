@@ -29,12 +29,6 @@ public class Country {
         this.name = name;
     }
 
-    public Country(int population, int resistance) {
-        Target.fill(this.population, population, resistance);
-        this.birthRate = 0.03;
-        this.resistance = resistance;
-    }
-
     public String toString(){
         return this.name;
     }
@@ -116,6 +110,4 @@ public class Country {
         }
         return dead;
     }
-
-
 }

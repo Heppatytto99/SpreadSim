@@ -97,7 +97,12 @@ public class Main extends Application{
 
     private void automatic(){
             final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-            executorService.scheduleAtFixedRate(() -> simulation.next(), 0, 1, TimeUnit.SECONDS);
+            executorService.scheduleAtFixedRate(() -> {
+                System.out.println(simulation.hasNext());
+                if(simulation.hasNext())simulation.next();
+                else executorService.shutdownNow();
+            }, 0, 1, TimeUnit.SECONDS);
+
     }
 
     private void addPresets(){

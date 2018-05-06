@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.ListIterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Virus{
@@ -22,10 +20,6 @@ public class Virus{
         return i < this.infectionValue;
     }
 
-    /*
-    Käy läpi jokaisen Targetin 'targets' listasta. Jos infect() onnistuu ja targetin resist() epäonnistuu,
-    target 'tartutetaan' tällä viruksella.
-     */
     public void spread(ArrayList<Target> targets){
         for(Target target : targets){
             if(!target.isInfected()){
@@ -35,12 +29,6 @@ public class Virus{
                 }
                 else {
                     this.infectionValue += 0.01;
-                    //this.infectionValue += 0.0002;
-                  //Tää aiheuttaa vielä ongelmia, koska Java FX
-                  //ei tykkää kun sen alkiperäisarvoista poiketaan
-                    //this.resistanceValue -= 0.1;
-                // Voidaan esim laskea viruksen kykyä tarttua jos uhri onnistuu resistoimaan ym. laskutoimituksia
-                //}
             }
         } else {
                 target.tick();

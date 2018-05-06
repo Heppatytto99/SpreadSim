@@ -28,29 +28,6 @@ public class Simulation {
     private int lastDay;
     private Country country;
 
-    public Simulation(int targets, int infectionChance, double birthRate){
-        this.virus = new Virus(infectionChance,  3);
-        xAxis.setLabel("TIME IN DAYS: " + this.nextDay);
-        yAxis.setLabel("POPULATION");
-        lineChart.setTitle("VIRUS DATA");
-        lineChart.setMinSize(1024, 768);
-
-        totalPopulation.setName("Total Population");
-        infected.setName("Total infected");
-        healthy.setName("Total healthy");
-        born.setName("Total Born");
-        dead.setName("Total dead");
-
-        lineChart.getData().add(totalPopulation);
-        lineChart.getData().add(infected);
-        lineChart.getData().add(healthy);
-        lineChart.getData().add(born);
-        lineChart.getData().add(dead);
-
-        addData();
-        next();
-    }
-
     public Simulation(Country country, Virus virus){
         this.virus = virus;
         this.country = country;
@@ -78,6 +55,17 @@ public class Simulation {
         return this.country;
     }
 
+    public GridPane getGrid(){
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(0,10,0,10));
+        grid.add(lineChart, 2,2);
+
+        return grid;
+    }
+
     private void addData(){
 
         int day = 0;
@@ -96,7 +84,7 @@ public class Simulation {
             this.country.update();
             this.country.cleanDead();
             System.out.println(day);
-            next = (this.country.getTotalPopulationAmount() > 1000);
+            next = (this.country.getTotalPopulationAmount() > 10000);
 
             if(day > 200) next = false;
 
@@ -116,15 +104,8 @@ public class Simulation {
         }
     }
 
-    public GridPane getGrid(){
-
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(0,10,0,10));
-        grid.add(lineChart, 2,2);
-
-        return grid;
+    public boolean hasNext(){
+        return this.nextDay < this.lastDay;
     }
 
     private XYChart.Data<Number, Number> getTotalpopulationData(int day){
