@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class Country {
 
+    private String name;
     private int resistance;
     private double birthRate;
     private int lastBorn = 0;
@@ -11,10 +12,11 @@ public class Country {
 
     private ArrayList<Target> population = new ArrayList<>();
 
-    public Country(int population, int resistance, double birthRate) {
+    public Country(int population, int resistance, double birthRate, String name) {
         Target.fill(this.population, population, resistance);
         this.birthRate = birthRate;
         this.resistance = resistance;
+        this.name = name;
     }
 
     public Country(int population, int resistance) {
@@ -23,16 +25,8 @@ public class Country {
         this.resistance = resistance;
     }
 
-    public void update(){
-        this.dead = countDead();
-        this.infected = countInfected();
-        this.healthy = countHealhty();
-        this.lastBorn = (int) birthRate * this.population.size();
-        Target.fill(this.population, lastBorn, resistance);
-    }
-
-    public void cleanDead(){
-        this.population.removeIf((Target t) -> t.getStatus().equals(Status.STATUS_DEAD));
+    public String toString(){
+        return this.name;
     }
 
     public ArrayList<Target> getPopulation() {
@@ -57,6 +51,18 @@ public class Country {
 
     public int getLastBorn(){
         return this.lastBorn;
+    }
+
+    public void cleanDead(){
+        this.population.removeIf((Target t) -> t.getStatus().equals(Status.STATUS_DEAD));
+    }
+
+    public void update(){
+        this.dead = countDead();
+        this.infected = countInfected();
+        this.healthy = countHealhty();
+        this.lastBorn = (int) birthRate * this.population.size();
+        Target.fill(this.population, lastBorn, resistance);
     }
 
     private int countInfected(){

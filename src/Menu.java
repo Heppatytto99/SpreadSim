@@ -3,12 +3,14 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
 
 public class Menu {
 
     private static VBox vbox = new VBox(5);
+    private static ChoiceBox<Country> cbBox = new ChoiceBox<>();
 
-    private static Slider targetCount = new Slider(1.0, 1000000.0, 1.0);
+    private static Slider targetCount = new Slider(1.0, 10000000.0, 1.0);
     private static Slider infectionChance = new Slider(1.0, 100.0, 1.0);
     private static Slider birth = new Slider(1.0, 10, 0.1);
     private static Slider incubation = new Slider(1.0, 10, 1);
@@ -18,6 +20,13 @@ public class Menu {
     private static Button newSimulation = new Button("NEW SIMULATION");
     private static Button closeSimulation = new Button("CLOSE SIMULATION");
     private static Button auto = new Button("AUTOMATIC");
+    private static Button clearSelect = new Button("clear");
+
+    public static VBox getVbox(){
+        return Menu.vbox;
+    }
+
+    public static ChoiceBox<Country> getCbBox() { return Menu.cbBox; }
 
     public static Button getAutoButton(){
         return auto;
@@ -39,10 +48,6 @@ public class Menu {
         return closeSimulation;
     }
 
-    public static VBox getBox(){
-        return Menu.vbox;
-    }
-
     public static Slider getBirthSlider(){
         return Menu.birth;
     }
@@ -60,39 +65,52 @@ public class Menu {
     public static void createMenu(){
 
         vbox.setMaxWidth(500.0);
+
+        Label presets = new Label("POPULATION PRESETS:");
+        cbBox.setConverter(new StringConverter<Country>() {
+            @Override
+            public String toString(Country object) {
+                return object.toString();
+            }
+
+            @Override
+            public Country fromString(String string) {
+                return cbBox.getItems().stream().filter(
+                        country -> country.toString().equals(string)).findFirst().orElse(null);
+            }
+        });
+
+        //TargetCount Slider
         targetCount.setShowTickLabels(true);
         targetCount.setShowTickMarks(true);
         targetCount.setMajorTickUnit(499999);
-        //targetCount.setMinorTickCount(100);
-        //targetCount.setSnapToTicks(true);
         Label targetCountValue = new Label("TARGET POPULATION: " + Double.toString(targetCount.getValue()));
         targetCount.valueProperty().addListener((observable, oldValue, newValue) ->{
             targetCount.setValue(newValue.intValue());
             targetCountValue.setText("TARGET POPULATION: " + Double.toString(targetCount.getValue()));
         });
 
+        //Infection Chance Slider
         infectionChance.setShowTickLabels(true);
         infectionChance.setShowTickMarks(true);
         infectionChance.setMajorTickUnit(49);
-        //infectionChance.setMinorTickCount(1);
-        //infectionChance.setSnapToTicks(true);
         Label infectionChanceValue = new Label("VIRUS INEFECTION CHANCE %: " + Double.toString(infectionChance.getValue()));
         infectionChance.valueProperty().addListener((observable, oldValue, newValue) ->{
             infectionChance.setValue(newValue.intValue());
             infectionChanceValue.setText("INFECTION CHANCE %: " + Double.toString(infectionChance.getValue()));
         });
 
+        //Birthrate Slider
         birth.setShowTickLabels(true);
         birth.setShowTickMarks(true);
         birth.setMajorTickUnit(49);
-        //targetCount.setMinorTickCount(100);
-        //targetCount.setSnapToTicks(true);
         Label birthValue = new Label("BIRTHRATE %: " + Double.toString(birth.getValue()));
         birth.valueProperty().addListener((observable, oldValue, newValue) ->{
             birth.setValue(newValue.intValue());
             birthValue.setText("BIRTHRATE %: " + Double.toString(birth.getValue()));
         });
 
+        //Virus incubation Slider
         incubation.setShowTickLabels(true);
         incubation.setShowTickMarks(true);
         Label incubationValue = new Label("VIRUS INCUBATION TIME: " + Double.toString(incubation.getValue()));
@@ -101,14 +119,11 @@ public class Menu {
             incubationValue.setText("VIRUS INCUBATION TIME: " + Double.toString(incubation.getValue()));
         });
 
-                //choicebox
-        Label dropDownMenu = new Label("POPULATION PRESETS:");
-        ChoiceBox<String> choiceBox = new ChoiceBox<>();
-        choiceBox.getItems().addAll("FINLAND", "SWEDEN", "LATVIA", "FIJI", "LUXEMBOURG", "ICELAND", "GREENLAND");
-        choiceBox.setOnAction(e -> setChoice(choiceBox));
+       // ChoiceBox<String> choiceBox = new ChoiceBox<>();
+        //choiceBox.getItems().addAll("FINLAND", "SWEDEN", "LATVIA", "FIJI", "LUXEMBOURG", "ICELAND", "GREENLAND");
+        //choiceBox.setOnAction(e -> setChoice(choiceBox));
 
-        
-        vbox.getChildren().addAll(dropDownMenu, choiceBox,
+        vbox.getChildren().addAll(presets, cbBox,
                 targetCountValue, targetCount,
                 infectionChanceValue, infectionChance,
                 birthValue, birth,
