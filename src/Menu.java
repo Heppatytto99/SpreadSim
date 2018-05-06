@@ -70,6 +70,8 @@ public class Menu {
 
     public static void createMenu(){
 
+        clearSelect.setId("clear");
+
         vbox.setMaxWidth(500.0);
 
         Label presets = new Label("POPULATION PRESETS:");
