@@ -81,6 +81,7 @@ public class Main extends Application{
 
         //Add Buttons to Left Border
         border.setLeft(Menu.getVbox());
+        border.setRight(Menu.getRightVbox());
 
         //Scene & CSS
         Scene scene = new Scene(border,1200 ,800);
@@ -92,13 +93,13 @@ public class Main extends Application{
         stage.setTitle("VIRUS SIMULATION");
         stage.setScene(scene);
         stage.setOnCloseRequest(e -> Platform.exit());
+        stage.setMaximized(true);
         stage.show();
     }
 
     private void automatic(){
             final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
             executorService.scheduleAtFixedRate(() -> {
-                System.out.println(simulation.hasNext());
                 if(simulation.hasNext())simulation.next();
                 else executorService.shutdownNow();
             }, 0, 1, TimeUnit.SECONDS);

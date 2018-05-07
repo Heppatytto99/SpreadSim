@@ -6,6 +6,7 @@ import javafx.util.StringConverter;
 public class Menu {
 
     private static VBox vbox = new VBox(5);
+    private static VBox rightVbox = new VBox(5);
     private static HBox hbox = new HBox(6);
     private static ChoiceBox<Country> cbBox = new ChoiceBox<>();
     private static TextField textField = new TextField("Default country");
@@ -23,8 +24,10 @@ public class Menu {
     private static Button clearSelect = new Button("   "); //antaa välien olla tuolla
 
     public static VBox getVbox(){
-        return Menu.vbox;
+        return vbox;
     }
+
+    public static VBox getRightVbox() { return rightVbox; }
 
     public static ChoiceBox<Country> getCbBox() { return cbBox; }
 
@@ -91,7 +94,7 @@ public class Menu {
         //TargetCount Slider
         targetCount.setShowTickLabels(true);
         targetCount.setShowTickMarks(true);
-        targetCount.setMajorTickUnit(499999);
+        targetCount.setMajorTickUnit(50000);
         Label targetCountValue = new Label("TARGET POPULATION: " + Double.toString(targetCount.getValue()));
         targetCount.valueProperty().addListener((observable, oldValue, newValue) ->{
             targetCount.setValue(newValue.intValue());
@@ -140,7 +143,6 @@ public class Menu {
             targetCount.setDisable(false);
             birth.setDisable(false);
         });
-        clearSelect.setMaxWidth(6.0);
 
         Label options = new Label("SIMULATION CONTROLS:");
         Label textFieldLabel = new Label("NAME:");
@@ -156,5 +158,8 @@ public class Menu {
                 presets, hbox, options,
                 next,prev, auto, newSimulation,closeSimulation
         );
+
+        rightVbox.getChildren().addAll(presets, hbox, options,
+                next,prev, auto, newSimulation,closeSimulation);
     }
 }
